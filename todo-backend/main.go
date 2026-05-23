@@ -24,20 +24,17 @@ type Task struct {
 var db *sql.DB
 
 func main() {
-	// 1. โหลดค่าจากไฟล์ .env
 	err := godotenv.Load()
 	if err != nil {
 		log.Println("ไม่มีไฟล์ .env ใช้ค่า Environment เริ่มต้นของระบบ")
 	}
 
-	// 2. ดึงค่าตัวแปรมาประกอบเป็น DSN
 	dbUser := os.Getenv("DB_USER")
 	dbPass := os.Getenv("DB_PASSWORD")
 	dbHost := os.Getenv("DB_HOST")
 	dbPort := os.Getenv("DB_PORT")
 	dbName := os.Getenv("DB_NAME")
 
-	// รูปแบบ: username:password@tcp(host:port)/dbname?parseTime=true
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", dbUser, dbPass, dbHost, dbPort, dbName)
 
 	db, err = sql.Open("mysql", dsn)
@@ -58,8 +55,6 @@ func main() {
 		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders: []string{"Origin", "Content-Type"},
 	}))
-
-	// --- CRUD API เหมือนเดิม ---
 
 	r.GET("/api/tasks", func(c *gin.Context) {
 		rows, err := db.Query("SELECT id, title, description, status, created_at FROM tasks ORDER BY id DESC")
@@ -127,10 +122,9 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"message": "ลบงานสำเร็จ"})
 	})
 
-	// 3. ดึง Port จาก .env
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080" // กรณีลืมใส่ใน .env
+		port = "8080"
 	}
 
 	log.Printf("🚀 Server running on http://localhost:%sn", port)

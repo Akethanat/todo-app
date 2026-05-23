@@ -1,3 +1,6 @@
+# =========================
+# Frontend (React / Vite)
+# =========================
 # Logs
 logs
 *.log
@@ -12,11 +15,29 @@ dist
 dist-ssr
 *.local
 
+# =========================
+# Backend (Golang)
+# =========================
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+.gotmp/
+
+# =========================
+# Security & OS Files
+# =========================
+.env
+.DS_Store
+Thumbs.db
+
+# =========================
 # Editor directories and files
+# =========================
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
